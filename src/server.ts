@@ -46,6 +46,12 @@ import {
   formatItemsShape,
   runFormatItems,
 } from './tools/format-items.js';
+import {
+  DISCOVER_PRODUCTS_TOOL_NAME,
+  DISCOVER_PRODUCTS_DESCRIPTION,
+  discoverProductsShape,
+  runDiscoverProducts,
+} from './tools/discover-products.js';
 
 function errorResult(e: unknown) {
   const msg =
@@ -146,6 +152,24 @@ export function buildServer(): McpServer {
     async (args) => {
       try {
         return await runGetBrowseNodes(deps, args);
+      } catch (e) {
+        return errorResult(e);
+      }
+    },
+  );
+
+  registerAppTool(
+    server,
+    DISCOVER_PRODUCTS_TOOL_NAME,
+    {
+      description: DISCOVER_PRODUCTS_DESCRIPTION,
+      inputSchema: discoverProductsShape,
+      annotations: { readOnlyHint: true, openWorldHint: true },
+      _meta: UI_META,
+    },
+    async (args) => {
+      try {
+        return await runDiscoverProducts(deps, args);
       } catch (e) {
         return errorResult(e);
       }
