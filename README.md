@@ -196,6 +196,25 @@ Your credentials are tied to one region, and calling a marketplace outside it fa
 
 ---
 
+## Juvalytics product discovery
+
+This fork adds a higher-level `discover_products` tool for Juvalytics. The evidence/recommendation layer should first decide which intervention and product requirements are appropriate; this MCP then performs commerce discovery.
+
+Example input:
+
+```json
+{
+  "intervention": "creatine monohydrate",
+  "productQuery": "creatine monohydrate powder",
+  "minReviewsRating": 4,
+  "maxResults": 10
+}
+```
+
+The structured result normalizes each candidate to ASIN, title, brand, features, image, current offer price, rating/review count, availability, and `affiliateUrl`. The referral URL is the Amazon-provided `detailPageURL` associated with the configured `AMAZON_PARTNER_TAG`; callers should preserve it unchanged.
+
+**Boundary:** Amazon catalog ranking is not scientific evidence. Juvalytics should select interventions and product criteria from its evidence graph before invoking product discovery.
+
 ## Tools
 
 | Tool | Input | What it does |
